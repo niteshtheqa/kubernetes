@@ -28,13 +28,18 @@ sudo curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.
 echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /" | sudo tee /etc/apt/sources.list.d/cri-o.list
 
 sudo apt-get update -y
-/**
-sudo apt-get install -y cri-o
+#/**
+#sudo apt-get install -y cri-o
 
+#sudo systemctl daemon-reload
+#sudo systemctl enable crio --now
+#sudo systemctl start crio.service
+#**/ You can replace this with docker installation
+sudo apt-get install docker.io -y
 sudo systemctl daemon-reload
-sudo systemctl enable crio --now
-sudo systemctl start crio.service
-**/ You can replace this with docker installation
+sudo systemctl enable docker
+sudo systemctl start docker
+
 echo "CRI runtime installed successfully"
 
 # Add Kubernetes APT repository and install required packages
@@ -54,7 +59,8 @@ sudo systemctl start kubelet
 
 sudo kubeadm config images pull
 
-sudo kubeadm init
+sudo kubeadm init --ignore-preflight-errors=NumCPU,Mem
+sudo kubeadm init --apiserver-advertise-address=54.209.22.169 --pod-network-cidr=192.168.0.0/16
 
 mkdir -p "$HOME"/.kube
 sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
@@ -62,12 +68,13 @@ sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
 
 
 # Network Plugin = calico
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/calico.yaml
+#https://kubernetes.io/docs/concepts/cluster-administration/addons/
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/calico.yaml --validate=false
 
 kubeadm token create --print-join-command
 
 #Execute on ALL of your Worker Node's
 
-sudo kubeadm reset pre-flight checks
+sudo kubeadm reset pre-flight checks 
 
 sudo your-token --v=5

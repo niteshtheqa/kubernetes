@@ -1,0 +1,45 @@
+1. Get information:
+
+kubectl cluster-info: Display addresses of the master and services in the cluster.
+kubectl get pods: List all pods in the current namespace.
+kubectl get services: List all services in the current namespace.
+kubectl describe pod <pod_name>: Show details of a specific pod.
+kubectl describe service <service_name>: Show details of a specific service.
+
+2. Deployment and scaling:
+
+kubectl create deployment <name> --image=<image>: Create a deployment.
+kubectl scale deployment <deployment_name> --replicas=<number>: Scale a deployment.
+kubectl rollout status deployment/<deployment_name>: Check the status of a deployment rollout.
+kubectl rollout history deployment/<deployment_name>: View rollout history of a deployment.
+
+3. Interacting with Pods:
+
+kubectl exec -it <pod_name> -- <command>: Execute a command in a running pod.
+kubectl logs <pod_name>: Print the logs of a pod.
+kubectl port-forward <pod_name> <local_port>:<pod_port>: Forward ports from a pod to your local machine.
+
+4.Service Management:
+
+kubectl expose deployment <deployment_name> --type=NodePort --port=<port>: Expose a deployment as a service.
+kubectl delete service <service_name>: Delete a service.
+
+5.Namespace Management:
+
+kubectl get namespaces: List all namespaces in the cluster.
+kubectl create namespace <namespace>: Create a new namespace.
+kubectl delete namespace <namespace>: Delete a namespace and all resources in it.
+
+6.Config and Context:
+
+kubectl config view: Display Kubernetes cluster information.
+kubectl config current-context: Display the current-context.
+kubectl config use-context <context_name>: Set the current-context to a specific context.
+
+7.Troubleshooting and Debugging:
+
+kubectl describe <resource_type> <resource_name>: Show details of a specific Kubernetes resource.
+kubectl get events: Display cluster events.
+kubectl logs <pod_name>: Fetch the logs of a container in a pod.
+kubectl top nodes: Display resource usage (CPU/Memory) of nodes.
+
